@@ -1,0 +1,35 @@
+﻿<Page x:Class="УчётПлатежей.Pages.ProductsTable"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:УчётПлатежей.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProductsTable"
+      Background="AliceBlue">
+
+    <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="False" DockPanel.Dock="Top" MinHeight="60" HorizontalAlignment="Stretch" Margin="5">
+            <Button x:Name="btnAdd" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" Content="Добавить" DockPanel.Dock="Left" Click="btnAdd_Click"/>
+            <Button x:Name="btnEdit" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" Content="Редактировать" DockPanel.Dock="Left" Click="btnEdit_Click"/>
+            <Button x:Name="btnDelete" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" Content="Удалить" DockPanel.Dock="Left" Click="btnDelete_Click"/>
+            <ComboBox x:Name="cbFilterCategory" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" MinWidth="100" VerticalContentAlignment="Center" SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" DisplayMemberPath="название"/>
+            <TextBox x:Name="tbFilterName" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" MinWidth="100" VerticalContentAlignment="Center" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+            <Button x:Name="btnClearFilters" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" Content="Очистить фильтры" Click="btnClearFilters_Click"/>
+            <Button x:Name="btnBack" MaxHeight="30" Padding="5, 0" Margin="0,0,10,0" Content="Назад" DockPanel.Dock="Right" Click="btnBack_Click"/>
+        </DockPanel>
+        <DataGrid x:Name="dgProducts" AutoGenerateColumns="False" IsReadOnly="True">
+            <!--
+     Структура таблицы
+     наименование, цена, категория, описание
+     -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" Width="*" Binding="{Binding наименование}"/>
+                <DataGridTextColumn Header="Цена" Width="*" Binding="{Binding цена}"/>
+                <DataGridTextColumn Header="Категория" Width="*" Binding="{Binding категории.название}"/>
+                <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding описание}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Page>
