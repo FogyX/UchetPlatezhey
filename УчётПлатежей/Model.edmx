@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище УчётПлатежейModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="категории">
+          <Key>
+            <PropertyRef Name="id_категории" />
+          </Key>
+          <Property Name="id_категории" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="название" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="платежи">
+          <Key>
+            <PropertyRef Name="id_платежа" />
+          </Key>
+          <Property Name="id_платежа" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="дата_платежа" Type="date" />
+          <Property Name="id_продукта" Type="int" />
+          <Property Name="количество" Type="int" />
+          <Property Name="итоговая_стоимость" Type="money" />
+          <Property Name="id_пользователя" Type="int" />
+          <Property Name="сумма_со_скидкой" Type="money" />
+        </EntityType>
+        <EntityType Name="пользователи">
+          <Key>
+            <PropertyRef Name="id_пользователя" />
+          </Key>
+          <Property Name="id_пользователя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="фио" Type="nvarchar" MaxLength="50" />
+          <Property Name="логин" Type="nvarchar" MaxLength="50" />
+          <Property Name="пароль" Type="nvarchar" MaxLength="50" />
+          <Property Name="пин_код" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="продукты">
+          <Key>
+            <PropertyRef Name="id_продукта" />
+          </Key>
+          <Property Name="id_продукта" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="наименование" Type="nvarchar" MaxLength="50" />
+          <Property Name="цена" Type="money" />
+          <Property Name="id_категории" Type="int" />
+          <Property Name="описание" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Платежи_Пользователи">
+          <End Role="пользователи" Type="Self.пользователи" Multiplicity="0..1" />
+          <End Role="платежи" Type="Self.платежи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="пользователи">
+              <PropertyRef Name="id_пользователя" />
+            </Principal>
+            <Dependent Role="платежи">
+              <PropertyRef Name="id_пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Платежи_Продукция">
+          <End Role="продукты" Type="Self.продукты" Multiplicity="0..1" />
+          <End Role="платежи" Type="Self.платежи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="продукты">
+              <PropertyRef Name="id_продукта" />
+            </Principal>
+            <Dependent Role="платежи">
+              <PropertyRef Name="id_продукта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Продукция_Категории">
+          <End Role="категории" Type="Self.категории" Multiplicity="0..1" />
+          <End Role="продукты" Type="Self.продукты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="категории">
+              <PropertyRef Name="id_категории" />
+            </Principal>
+            <Dependent Role="продукты">
+              <PropertyRef Name="id_категории" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище УчётПлатежейModelContainer">
+          <EntitySet Name="категории" EntityType="Self.категории" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="платежи" EntityType="Self.платежи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="пользователи" EntityType="Self.пользователи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="продукты" EntityType="Self.продукты" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Платежи_Пользователи" Association="Self.FK_Платежи_Пользователи">
+            <End Role="пользователи" EntitySet="пользователи" />
+            <End Role="платежи" EntitySet="платежи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Платежи_Продукция" Association="Self.FK_Платежи_Продукция">
+            <End Role="продукты" EntitySet="продукты" />
+            <End Role="платежи" EntitySet="платежи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Продукция_Категории" Association="Self.FK_Продукция_Категории">
+            <End Role="категории" EntitySet="категории" />
+            <End Role="продукты" EntitySet="продукты" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="УчётПлатежейModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="категории">
+          <Key>
+            <PropertyRef Name="id_категории" />
+          </Key>
+          <Property Name="id_категории" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="продукты" Relationship="Self.FK_Продукция_Категории" FromRole="категории" ToRole="продукты" />
+        </EntityType>
+        <EntityType Name="платежи">
+          <Key>
+            <PropertyRef Name="id_платежа" />
+          </Key>
+          <Property Name="id_платежа" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="дата_платежа" Type="DateTime" Precision="0" />
+          <Property Name="id_продукта" Type="Int32" />
+          <Property Name="количество" Type="Int32" />
+          <Property Name="итоговая_стоимость" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="id_пользователя" Type="Int32" />
+          <NavigationProperty Name="пользователи" Relationship="Self.FK_Платежи_Пользователи" FromRole="платежи" ToRole="пользователи" />
+          <NavigationProperty Name="продукты" Relationship="Self.FK_Платежи_Продукция" FromRole="платежи" ToRole="продукты" />
+          <Property Name="сумма_со_скидкой" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="пользователи">
+          <Key>
+            <PropertyRef Name="id_пользователя" />
+          </Key>
+          <Property Name="id_пользователя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="фио" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="пин_код" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="платежи" Relationship="Self.FK_Платежи_Пользователи" FromRole="пользователи" ToRole="платежи" />
+        </EntityType>
+        <EntityType Name="продукты">
+          <Key>
+            <PropertyRef Name="id_продукта" />
+          </Key>
+          <Property Name="id_продукта" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="цена" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="id_категории" Type="Int32" />
+          <Property Name="описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="категории" Relationship="Self.FK_Продукция_Категории" FromRole="продукты" ToRole="категории" />
+          <NavigationProperty Name="платежи" Relationship="Self.FK_Платежи_Продукция" FromRole="продукты" ToRole="платежи" />
+        </EntityType>
+        <Association Name="FK_Продукция_Категории">
+          <End Role="категории" Type="Self.категории" Multiplicity="0..1" />
+          <End Role="продукты" Type="Self.продукты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="категории">
+              <PropertyRef Name="id_категории" />
+            </Principal>
+            <Dependent Role="продукты">
+              <PropertyRef Name="id_категории" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Платежи_Пользователи">
+          <End Role="пользователи" Type="Self.пользователи" Multiplicity="0..1" />
+          <End Role="платежи" Type="Self.платежи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="пользователи">
+              <PropertyRef Name="id_пользователя" />
+            </Principal>
+            <Dependent Role="платежи">
+              <PropertyRef Name="id_пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Платежи_Продукция">
+          <End Role="продукты" Type="Self.продукты" Multiplicity="0..1" />
+          <End Role="платежи" Type="Self.платежи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="продукты">
+              <PropertyRef Name="id_продукта" />
+            </Principal>
+            <Dependent Role="платежи">
+              <PropertyRef Name="id_продукта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="УчётПлатежейEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="категории" EntityType="Self.категории" />
+          <EntitySet Name="платежи" EntityType="Self.платежи" />
+          <EntitySet Name="пользователи" EntityType="Self.пользователи" />
+          <EntitySet Name="продукты" EntityType="Self.продукты" />
+          <AssociationSet Name="FK_Продукция_Категории" Association="Self.FK_Продукция_Категории">
+            <End Role="категории" EntitySet="категории" />
+            <End Role="продукты" EntitySet="продукты" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Платежи_Пользователи" Association="Self.FK_Платежи_Пользователи">
+            <End Role="пользователи" EntitySet="пользователи" />
+            <End Role="платежи" EntitySet="платежи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Платежи_Продукция" Association="Self.FK_Платежи_Продукция">
+            <End Role="продукты" EntitySet="продукты" />
+            <End Role="платежи" EntitySet="платежи" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище УчётПлатежейModelContainer" CdmEntityContainer="УчётПлатежейEntities">
+          <EntitySetMapping Name="категории">
+            <EntityTypeMapping TypeName="УчётПлатежейModel.категории">
+              <MappingFragment StoreEntitySet="категории">
+                <ScalarProperty Name="id_категории" ColumnName="id_категории" />
+                <ScalarProperty Name="название" ColumnName="название" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="платежи">
+            <EntityTypeMapping TypeName="УчётПлатежейModel.платежи">
+              <MappingFragment StoreEntitySet="платежи">
+                <ScalarProperty Name="сумма_со_скидкой" ColumnName="сумма_со_скидкой" />
+                <ScalarProperty Name="id_платежа" ColumnName="id_платежа" />
+                <ScalarProperty Name="дата_платежа" ColumnName="дата_платежа" />
+                <ScalarProperty Name="id_продукта" ColumnName="id_продукта" />
+                <ScalarProperty Name="количество" ColumnName="количество" />
+                <ScalarProperty Name="итоговая_стоимость" ColumnName="итоговая_стоимость" />
+                <ScalarProperty Name="id_пользователя" ColumnName="id_пользователя" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="пользователи">
+            <EntityTypeMapping TypeName="УчётПлатежейModel.пользователи">
+              <MappingFragment StoreEntitySet="пользователи">
+                <ScalarProperty Name="id_пользователя" ColumnName="id_пользователя" />
+                <ScalarProperty Name="фио" ColumnName="фио" />
+                <ScalarProperty Name="логин" ColumnName="логин" />
+                <ScalarProperty Name="пароль" ColumnName="пароль" />
+                <ScalarProperty Name="пин_код" ColumnName="пин_код" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="продукты">
+            <EntityTypeMapping TypeName="УчётПлатежейModel.продукты">
+              <MappingFragment StoreEntitySet="продукты">
+                <ScalarProperty Name="id_продукта" ColumnName="id_продукта" />
+                <ScalarProperty Name="наименование" ColumnName="наименование" />
+                <ScalarProperty Name="цена" ColumnName="цена" />
+                <ScalarProperty Name="id_категории" ColumnName="id_категории" />
+                <ScalarProperty Name="описание" ColumnName="описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

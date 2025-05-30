@@ -1,0 +1,43 @@
+﻿<Page x:Class="УчётПлатежей.Pages.Authentication"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:УчётПлатежей.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Authentication"
+      Background="AliceBlue" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="330">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="30" />
+                </Style>
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="20" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock HorizontalAlignment="Center">Вход в систему</TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Логин:" />
+                <TextBox x:Name="tbLogin" MinWidth="150" Margin="0,10,0,3"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="Пароль:" />
+            <PasswordBox x:Name="tbPassword" MinWidth="150" Margin="0,10,0,3"/>
+            </StackPanel>
+            <StackPanel Visibility="{Binding IsCaptchaVisible, FallbackValue='Collapsed', Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Stretch">
+                <Label Content="Введите капчу:" />
+                <TextBlock x:Name="textCaptcha" FontSize="20"></TextBlock>
+                <TextBox x:Name="tbCaptcha" MinWidth="150" Margin="0,10,0,3"/>
+            </StackPanel>
+            <TextBlock x:Name="textTimer" FontSize="10" HorizontalAlignment="Center" Foreground="Red" Visibility="Collapsed">Слишком много попыток входа. Повторите через</TextBlock>
+            <Button x:Name="btnLogin" Content="Войти" Margin="0,10,0,0" Width="100" Height="30" HorizontalAlignment="Center" Click="btnLogin_Click"/>
+            <TextBlock x:Name="textWarning" FontSize="10" HorizontalAlignment="Center" Foreground="Red" Visibility="Collapsed">Внимание! Осталось x попыток до блокировки.</TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

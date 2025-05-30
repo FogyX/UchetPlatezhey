@@ -1,0 +1,43 @@
+﻿<Page x:Class="УчётПлатежей.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:УчётПлатежей.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="850"
+      Title="MainPage"
+      Background="AliceBlue">
+
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" MinHeight="60" HorizontalAlignment="Stretch" Margin="5">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5, 0">
+                <TextBlock Text="С" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                <DatePicker x:Name="dateFromPicker" SelectedDate="{Binding DateFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='dd.MM.yyyy'}" />
+                <TextBlock Text="по" Margin="5, 0" VerticalAlignment="Center"/>
+                <DatePicker x:Name="dateToPicker" SelectedDate="{Binding DateTo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='dd.MM.yyyy'}"/>
+            </StackPanel>
+            <ComboBox x:Name="cbFilterCategory" Width="110" MaxHeight="30" Margin="0,0,5,0" VerticalContentAlignment="Center" SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  DisplayMemberPath="название"/>
+            <Button x:Name="btnClearFilters" MaxHeight="30" Padding="5, 0" Margin="0,0,5,0" Content="Очистить фильтры" Click="btnClearFilters_Click" />
+            <Button x:Name="btnProducts" MaxHeight="30" Padding="5, 0" Margin="0,0,5,0" Content="Продукты" Click="btnProducts_Click"/>
+            <Button x:Name="btnAdd" MaxHeight="30" Padding="5, 0" Margin="0,0,5,0" Content="Добавить" Click="btnAdd_Click"/>
+            <Button x:Name="btnEdit" MaxHeight="30" Padding="5, 0" Margin="0,0,5,0" Content="Редактировать" Click="btnEdit_Click"/>
+            <Button x:Name="btnDelete" MaxHeight="30" Padding="5, 0" Margin="0,0,5,0" Content="Удалить" Click="btnDelete_Click"/>
+            <Button x:Name="btnReport" MaxHeight="30" Padding="5, 0" Margin="0,0,5,0" Content="Отчёт" Click="btnReport_Click"/>
+        </StackPanel>
+        <DataGrid x:Name="dgPayments" AutoGenerateColumns="False" IsReadOnly="True">
+            <!--
+            Структура таблицы
+            дата, категория, продукт, количество, цена, итоговая стоимость
+            -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата" Width="*"  Binding="{Binding дата_платежа, StringFormat='dd.MM.yyyy'}"/>
+                <DataGridTextColumn Header="Категория" Width="*" Binding="{Binding продукты.категории.название}"/>
+                <DataGridTextColumn Header="Продукт" Width="*" Binding="{Binding продукты.наименование}"/>
+                <DataGridTextColumn Header="Количество" Width="*" Binding="{Binding количество}"/>
+                <DataGridTextColumn Header="Цена" Width="*" Binding="{Binding продукты.цена}"/>
+                <DataGridTextColumn Header="Итоговая стоимость" Width="*" Binding="{Binding итоговая_стоимость}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Page>
